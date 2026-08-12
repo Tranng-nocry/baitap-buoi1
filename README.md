@@ -4,7 +4,7 @@
 
 - Họ và tên: Trần Thùy Trang
 - Ngày sinh: 06/08/2006
-- Mã sinh viên: 
+- Mã sinh viên: 224001837
 
 ## Các bài đã thực hiện
 
