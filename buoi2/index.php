@@ -1,143 +1,136 @@
+<?php
+
+if (isset($_POST['btn_kiem_tra'])) {
+
+    $id_ban_sao = $_POST['id_ban_sao'];
+    $id_dau_sach = $_POST['id_dau_sach'];
+    $ma_ban_sao = $_POST['ma_ban_sao'];
+    $trang_thai = $_POST['trang_thai'];
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Quản lý sách thư viện</title>
+    <title>Kiểm tra trạng thái bản sao</title>
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        form {
-            width: 400px;
-            padding: 20px;
-            border: 1px solid #ccc;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 8px;
-            margin: 8px 0 15px;
+        * {
             box-sizing: border-box;
         }
 
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #dbeafe, #ede9fe);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 450px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            text-align: center;
+            color: #4f46e5;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 5px rgba(99, 102, 241, 0.3);
+        }
+
         button {
-            padding: 10px 20px;
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 8px;
+            background: #6366f1;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
         }
 
-        table {
-            border-collapse: collapse;
-            width: 80%;
-            margin-top: 25px;
-        }
-
-        th, td {
-            border: 1px solid #333;
-            padding: 10px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #ddd;
+        button:hover {
+            background: #4f46e5;
         }
     </style>
 </head>
 
 <body>
 
-<h1>QUẢN LÝ SÁCH THƯ VIỆN</h1>
+    <div class="container">
 
-<form method="post">
-    <label>Tên sách:</label>
-    <input type="text" name="ten_sach" required>
+        <h2>KIỂM TRA TRẠNG THÁI BẢN SAO</h2>
 
-    <label>Tác giả:</label>
-    <input type="text" name="tac_gia" required>
+        <form method="post">
 
-    <label>Thể loại:</label>
-    <input type="text" name="the_loai" required>
+            <div class="form-group">
+                <label>ID bản sao:</label>
+                <input type="text" name="id_ban_sao">
+            </div>
 
-    <label>Năm xuất bản:</label>
-    <input type="number" name="nam_xuat_ban" required>
+            <div class="form-group">
+                <label>ID đầu sách:</label>
+                <input type="text" name="id_dau_sach">
+            </div>
 
-    <button type="submit" name="them_sach">Thêm sách</button>
-</form>
+            <div class="form-group">
+                <label>Mã bản sao:</label>
+                <input type="text" name="ma_ban_sao">
+            </div>
 
-<?php
+            <div class="form-group">
+                <label>Trạng thái:</label>
+                <select name="trang_thai">
+                    <option value="Đang mượn">Đang mượn</option>
+                    <option value="Chưa trả">Chưa trả</option>
+                    <option value="Đã trả">Đã trả</option>
+                </select>
+            </div>
 
-// Hàm tự định nghĩa để phân loại sách
-function phanLoaiSach($nam)
-{
-    $namHienTai = date("Y");
+            <button type="submit" name="btn_kiem_tra">
+                Kiểm tra trạng thái
+            </button>
 
-    if ($nam < $namHienTai - 10) {
-        return "Sách cũ";
-    } elseif ($nam <= $namHienTai) {
-        return "Sách mới";
-    } else {
-        return "Năm không hợp lệ";
-    }
-}
+        </form>
 
-// Mảng lưu danh sách sách
-$danhSachSach = [];
-
-// Kiểm tra khi người dùng nhập dữ liệu
-if (isset($_POST["them_sach"])) {
-
-    $tenSach = $_POST["ten_sach"];
-    $tacGia = $_POST["tac_gia"];
-    $theLoai = $_POST["the_loai"];
-    $namXuatBan = $_POST["nam_xuat_ban"];
-
-    // Tạo một sách bằng mảng
-    $sach = [
-        "ten_sach" => $tenSach,
-        "tac_gia" => $tacGia,
-        "the_loai" => $theLoai,
-        "nam_xuat_ban" => $namXuatBan
-    ];
-
-    // Thêm sách vào danh sách
-    $danhSachSach[] = $sach;
-
-    echo "<h2>Thông tin sách vừa nhập</h2>";
-
-    echo "<table>";
-    echo "<tr>";
-    echo "<th>Tên sách</th>";
-    echo "<th>Tác giả</th>";
-    echo "<th>Thể loại</th>";
-    echo "<th>Năm xuất bản</th>";
-    echo "<th>Phân loại</th>";
-    echo "</tr>";
-
-    // Dùng vòng lặp để hiển thị dữ liệu
-    foreach ($danhSachSach as $sach) {
-
-        echo "<tr>";
-
-        echo "<td>" . htmlspecialchars($sach["ten_sach"]) . "</td>";
-        echo "<td>" . htmlspecialchars($sach["tac_gia"]) . "</td>";
-        echo "<td>" . htmlspecialchars($sach["the_loai"]) . "</td>";
-        echo "<td>" . htmlspecialchars($sach["nam_xuat_ban"]) . "</td>";
-
-        // Sử dụng hàm tự định nghĩa
-        echo "<td>" . phanLoaiSach($sach["nam_xuat_ban"]) . "</td>";
-
-        echo "</tr>";
-    }
-
-    echo "</table>";
-}
-
-?>
+    </div>
 
 </body>
 </html>
